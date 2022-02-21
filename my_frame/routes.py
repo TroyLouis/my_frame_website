@@ -1,13 +1,13 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, request
 from my_frame import app, db, bcrypt
 from my_frame.forms import RegistrationForm, LoginForm
 from my_frame.models import User, Image_Post
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html')
+    return render_template('home.html', title='MyFrame')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -21,7 +21,7 @@ def register():
         db.session.commit()
         flash(f'Your account has been created! You are now able to log in.', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html', title='MyFrame - Register', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -32,12 +32,18 @@ def login():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('home'))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check your email and password and try again!', 'danger')
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', title='MyFrame - Login', form=form)
 
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route("/account")
+@login_required
+def account():
+    return render_template('account.html', title='MyFrame - Account')
