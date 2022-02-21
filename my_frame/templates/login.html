@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="p-5">
+    <div class="container">
+        <div class="d-flex flex-column align-items-center">
+        <h1 class="p-3">Login to your Account</h1>
+            <div class="col-6">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <div class="form-group mb-3">
+                    <label class="mb-2">Email address</label>
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control mb-1 is-invalid", placeholder="Enter email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.email(class="form-control mb-1", placeholder="Enter email") }}
+                        {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control mb-1 is-invalid", placeholder="Enter password") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.password(class="form-control mb-1", placeholder="Enter password") }}
+                        {% endif %}
+                </div>
+                <div class="form-check">
+                    {{ form.remember(class="form-check-input") }}
+                    {{ form.remember.label(class="form-check-label") }}
+
+                </div>
+                <div class="text-center">
+                    {{ form.submit(class="btn btn-primary mt-3 mb-2") }}
+                </div>
+            </form>
+            </div>
+            <p><a href="" class="text-decoration-none">Forgot Password?</a></p>
+            <p class='mt-5'>Don't have an account? <a href="{{ url_for('register') }}" class="text-decoration-none">Register</a></p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
