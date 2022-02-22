@@ -1,4 +1,74 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<section class="p-5">
+        <div class="content-section row">
+            <div class="media col-md-4">
+                <div class="media-body text-center border">
+                    <img class="rounded-circle account-img w-50 mt-3" src="{{ current_user.profile_picture }}">
+                    <h2 class="account-heading mt-3 mb-3">{{ current_user.username }}</h2>
+                    <p>{{ current_user.email }}</p>
+                    <p>Date Joined: <br>{{ current_user.date }}</p>
+                    <p>Likes: 15</p>
+                    <p>Liked: 235</p>
+                    <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Account Settings</a>
+                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                        <div class="card card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                        <div class="form-group mb-3">
+                          <label class="mb-2" for="exampleInputPassword1">Change Username</label>
+                          {% if form.username.errors %}
+                            {{ form.username(class="form-control mb-1 is-invalid", placeholder="Enter username") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.username(class="form-control mb-1", placeholder="Enter username") }}
+                        {% endif %}
+                        </div>
+                        <div class="form-group mb-3">
+                          <label class="mb-2">Change Email address</label>
+                          {% if form.email.errors %}
+                            {{ form.email(class="form-control mb-1 is-invalid", placeholder="Enter email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.email(class="form-control mb-1", placeholder="Enter email") }}
+                        {% endif %}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{form.picture.label(class="mb-3")}}
+                            {{ form.picture(class="form-control-file") }}
+                            {% if form.picture.errors %}
+                                {% for error in form.picture.errors %}
+                                    <span class="text-danger">{{ error }}</span><br>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                            <button type="submit" class="btn btn-primary mt-3 mb-2">Update</button>
+
+                      </form>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            <div class="col-md-8 mt-4 mt-md-0">
+                <div class="text-center">
+                    <h2>My Images</h2>
+                </div>
+                <div class="d-md-flex">
+                    <div class='p-3'><img class="mt-3 img-fluid" src="/static/images/default.png"></div>
+                    <div class='p-3'><img class="mt-3 img-fluid" src="/static/images/default.png"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
 {% endblock content %}
