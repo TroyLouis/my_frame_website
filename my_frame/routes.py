@@ -1,5 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from my_frame import app, db, bcrypt
+from PIL import Image
 from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
@@ -46,12 +47,16 @@ def logout():
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
+    folder_path = 'static/images/profile_pictures/'
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    print(app.root_path)
-    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    picture_path = os.path.join(app.root_path, folder_path, picture_fn)
     form_picture.save(picture_path)
-    return picture_path
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_fn
 
 @app.route("/account", methods=["GET","POST"])
 @login_required
@@ -60,6 +65,7 @@ def account():
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
+            print(picture_file)
             current_user.profile_picture = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -69,5 +75,5 @@ def account():
     elif request.method == "GET":
         form.username.data = current_user.username
         form.email.data = current_user.email
-    profile_picture = url_for('static', filename='images/' + current_user.profile_picture)
+    profile_picture = url_for('static', filename='images/profile_pictures/' + current_user.profile_picture)
     return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form)

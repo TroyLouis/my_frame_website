@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    profile_picture = db.Column(db.String(20), nullable=False, default='/static/profile_pictures/default.png')
+    profile_picture = db.Column(db.String(20), nullable=False, default='default.png')
     password = db.Column(db.String(60), nullable=False)
     images = db.relationship('Image_Post', backref='author', lazy=True)
 
