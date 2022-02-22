@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from my_frame.models import User
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
 from flask_wtf.file import FileField, FileAllowed
@@ -53,3 +53,8 @@ class UpdateAccountForm(FlaskForm):
             email_address = User.query.filter_by(email=email.data.lower()).first()
             if email_address:
                 raise ValidationError(f"That email is already in use. Please use another email address or login.")
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    picture = FileField('Upload Image', validators=[FileAllowed(['jpg','png'])])
+    submit = SubmitField('Post Image')

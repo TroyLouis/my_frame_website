@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from my_frame import app, db, bcrypt
 from PIL import Image
-from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os
@@ -77,3 +77,12 @@ def account():
         form.email.data = current_user.email
     profile_picture = url_for('static', filename='images/profile_pictures/' + current_user.profile_picture)
     return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form)
+
+@app.route("/image/new", methods=["GET","POST"])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        flash('Your image has been uploaded!', 'success')
+        return redirect(url_for('account'))
+    return render_template('create.html', title='MyFrame - New Image', form=form)
