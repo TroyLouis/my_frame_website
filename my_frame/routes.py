@@ -4,9 +4,8 @@ from PIL import Image
 from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
-import secrets, os
+import secrets, os, uuid
 from werkzeug.utils import secure_filename
-
 
 @app.route("/")
 @app.route("/home")
@@ -80,12 +79,26 @@ def account():
     profile_picture = url_for('static', filename='images/profile_pictures/' + current_user.profile_picture)
     return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form)
 
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    folder_path = 'static/images/user_uploads/'
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, folder_path, picture_fn)
+    form_picture.save(picture_path)
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_fn
+
 @app.route("/image/new", methods=["GET","POST"])
 @login_required
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
         if form.picture.data:
+            save_picture(form.picture.data)
             post = Image_Post(image=form.picture.data.filename, title=form.title.data, author=current_user)
             db.session.add(post)
             db.session.commit()
@@ -93,5 +106,4 @@ def new_post():
             return redirect(url_for('account'))
         else:
             flash('Please select an image!', 'danger')
-
     return render_template('create.html', title='MyFrame - New Image', form=form)
