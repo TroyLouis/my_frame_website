@@ -5,6 +5,8 @@ from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostF
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os
+from werkzeug.utils import secure_filename
+
 
 @app.route("/")
 @app.route("/home")
@@ -65,7 +67,6 @@ def account():
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
-            print(picture_file)
             current_user.profile_picture = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -83,6 +84,13 @@ def account():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        flash('Your image has been uploaded!', 'success')
-        return redirect(url_for('account'))
+        if form.picture.data:
+            post = Image_Post(image=form.picture.data.filename, title=form.title.data, author=current_user)
+            db.session.add(post)
+            db.session.commit()
+            flash('Your image has been uploaded!', 'success')
+            return redirect(url_for('account'))
+        else:
+            flash('Please select an image!', 'danger')
+
     return render_template('create.html', title='MyFrame - New Image', form=form)

@@ -8,20 +8,33 @@
                 <h1 class="p-3">Upload Image</h1>
             </div>
             <div class="d-flex justify-content-center">
-                <form class="text-center">
-                    <div class="form-group">
-                      <label class="mb-2 ">Image Title</label>
-                      <input class="form-control mb-1" placeholder="Title">
-                    </div>
-                    <div class="form-group mt-5">
-                        <!-- Literally can't center this for some reason checked stack too-->
-                        {{ form.picture(class="form-control-file", id="formFile", onchange="preview()") }}
-                        {% if form.picture.errors %}
-                            {% for error in form.picture.errors %}
-                                <span class="text-danger">{{ error }}</span><br>
+                        <form class="text-center" method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group mb-3">
+                      <label class="mb-2">Username</label>
+                        {% if form.title.errors %}
+                            {{ form.title(class="form-control mb-1 is-invalid", placeholder="Enter username") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
                             {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.title(class="form-control mb-1", placeholder="Enter title") }}
                         {% endif %}
                     </div>
+                    <div class="form-group mt-5">
+                        {% if form.picture.errors %}
+                            {{ form.picture(class="form-control-file mb-1 is-invalid", id="formFile", onchange="preview()") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.picture.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.picture(class="form-control-file", id="formFile", onchange="preview()") }}
+                        {% endif %}
+                        </div>
                     <img id="frame" src="" class="img-fluid mt-5 border" />
                     <div class="text-center">
                         {{ form.submit(class="btn btn-primary mt-3 mb-2") }}

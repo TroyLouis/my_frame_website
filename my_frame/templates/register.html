@@ -8,7 +8,7 @@
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
                     <div class="form-group mb-3">
-                      <label class="mb-2" for="exampleInputPassword1">Username</label>
+                      <label class="mb-2">Username</label>
                         {% if form.username.errors %}
                             {{ form.username(class="form-control mb-1 is-invalid", placeholder="Enter username") }}
                         <div class="invalid-feedback">
