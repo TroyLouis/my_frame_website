@@ -59,8 +59,23 @@
         </div>
     </section>
 
+    <!-- Recent User Uploads-->
+
+    <section>
+        <div class="container">
+            <h2 class="text-center mb-4">
+                Recent Uploads From Our Community
+            </h2>
+            {% for image in image %}
+            <div>
+                {{ image.image }}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
     <!-- Accordion -->
-    <section id="questions" class="mb-5">
+    <section id="questions" class="p-5">
         <div class="container">
             <h2 class="text-center mb-4">
                 FAQ

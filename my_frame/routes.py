@@ -11,7 +11,8 @@ from werkzeug.utils import secure_filename
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', title='MyFrame')
+    images = Image_Post.query.all()
+    return render_template('home.html', title='MyFrame', image=images)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
