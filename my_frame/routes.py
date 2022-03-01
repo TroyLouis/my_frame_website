@@ -7,11 +7,29 @@ from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
 from werkzeug.utils import secure_filename
 
+"""
+def open_img_resize(images):
+    file_name = '/static/images/user_uploads_slider/'
+    stored_file_name = '/static/images/user_uploads/'
+    slider_dict = []
+    output = (256,256)
+    for image in images:
+        image_img = image.image
+        print(stored_file_name + image_img)
+        i = Image.open(stored_file_name + image_img)
+        i.thumbnail(output)
+        i.save(file_name + image_img)
+        slider_dict.append(file_name + image_img)
+    return slider_dict
+"""
+
 @app.route("/")
 @app.route("/home")
 def home():
-    images = Image_Post.query.all()
-    return render_template('home.html', title='MyFrame', image=images)
+    user_uploads_slider = [Image_Post.query[-1],Image_Post.query[-2],Image_Post.query[-3]]
+    #resized_img = open_img_resize(user_uploads_slider)
+    #print(resized_img)
+    return render_template('home.html', title='MyFrame', image=user_uploads_slider)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -79,17 +97,13 @@ def account():
     profile_picture = url_for('static', filename='images/profile_pictures/' + current_user.profile_picture)
     return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form)
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
+def save_user_upload(user_upload):
+    uuid_hex = uuid.uuid4().hex
     folder_path = 'static/images/user_uploads/'
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
+    _, f_ext = os.path.splitext(user_upload.filename)
+    picture_fn = uuid_hex + f_ext
     picture_path = os.path.join(app.root_path, folder_path, picture_fn)
-    form_picture.save(picture_path)
-    output_size = (125, 125)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
+    user_upload.save(picture_path)
     return picture_fn
 
 @app.route("/image/new", methods=["GET","POST"])
@@ -98,8 +112,8 @@ def new_post():
     form = PostForm()
     if form.validate_on_submit():
         if form.picture.data:
-            save_picture(form.picture.data)
-            post = Image_Post(image=form.picture.data.filename, title=form.title.data, author=current_user)
+            picture_uuid = save_user_upload(form.picture.data)
+            post = Image_Post(image=picture_uuid, title=form.title.data, author=current_user)
             db.session.add(post)
             db.session.commit()
             flash('Your image has been uploaded!', 'success')
