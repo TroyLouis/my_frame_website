@@ -5,9 +5,7 @@ from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostF
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
-from werkzeug.utils import secure_filename
 
-"""
 def open_img_resize(images):
     file_name = '/static/images/user_uploads_slider/'
     stored_file_name = '/static/images/user_uploads/'
@@ -21,7 +19,7 @@ def open_img_resize(images):
         i.save(file_name + image_img)
         slider_dict.append(file_name + image_img)
     return slider_dict
-"""
+
 
 @app.route("/")
 @app.route("/home")
