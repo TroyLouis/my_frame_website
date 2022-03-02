@@ -81,6 +81,7 @@ def save_picture(form_picture):
 @login_required
 def account():
     form = UpdateAccountForm()
+    images = Image_Post.query.all()
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
@@ -94,7 +95,7 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     profile_picture = url_for('static', filename='images/profile_pictures/' + current_user.profile_picture)
-    return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form)
+    return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form, images=images)
 
 def save_user_upload(user_upload):
     uuid_hex = uuid.uuid4().hex

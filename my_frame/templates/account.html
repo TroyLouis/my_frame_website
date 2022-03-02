@@ -8,7 +8,7 @@
                     <img class="rounded-3 account-img w-50 mt-3" src="{{ profile_picture }}">
                     <h2 class="account-heading mt-3 mb-3">{{ current_user.username }}</h2>
                     <p>{{ current_user.email }}</p>
-                    <p>Date Joined: <br>{{ current_user.date }}</p>
+                    <p>Date Joined: <br>{{ current_user.date.strftime('%m-%d-%Y') }}</p>
                     <p>Likes: 15</p>
                     <p>Liked: 235</p>
                     <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Account Settings</a>
@@ -62,11 +62,14 @@
                 <div class="text-center">
                     <h2>My Images</h2>
                 </div>
+                {% for image in images %}
                 <div class="d-md-flex">
-                    <div class='p-3'><img class="mt-3 img-fluid" src="/static/images/default.png"></div>
+                    <div class='p-3'><img class="mt-3 img-fluid" src="{{ url_for('static', filename='images/user_uploads/' + image.image) }}"></div>
                     <div class='p-3'><img class="mt-3 img-fluid" src="/static/images/default.png"></div>
 
                 </div>
+                {% endfor %}
+
 
             </div>
         </div>
