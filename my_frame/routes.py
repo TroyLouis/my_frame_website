@@ -1,33 +1,34 @@
 from flask import render_template, url_for, flash, redirect, request
 from my_frame import app, db, bcrypt
-from PIL import Image
+from PIL import Image, ImageOps
 from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
 
 def open_img_resize(images):
-    file_name = '/static/images/user_uploads_slider/'
-    stored_file_name = '/static/images/user_uploads/'
+    file_name = 'static/images/user_uploads_slider/'
+    stored_file_name = 'static/images/user_uploads/'
     slider_dict = []
     output = (256,256)
     for image in images:
         image_img = image.image
-        print(stored_file_name + image_img)
-        i = Image.open(stored_file_name + image_img)
-        i.thumbnail(output)
-        i.save(file_name + image_img)
-        slider_dict.append(file_name + image_img)
+        stored_file_path = os.path.join(app.root_path, stored_file_name, image_img)
+        new_file_path = os.path.join(app.root_path, file_name, image_img)
+        img = Image.open(stored_file_path)
+        i = ImageOps.fit(img, output)
+        i.save(new_file_path)
+        slider_dict.append(image_img)
     return slider_dict
-
 
 @app.route("/")
 @app.route("/home")
 def home():
     user_uploads_slider = [Image_Post.query[-1],Image_Post.query[-2],Image_Post.query[-3]]
-    #resized_img = open_img_resize(user_uploads_slider)
-    #print(resized_img)
-    return render_template('home.html', title='MyFrame', image=user_uploads_slider)
+    print(user_uploads_slider)
+    resized_img = open_img_resize(user_uploads_slider)
+    print(resized_img)
+    return render_template('home.html', title='MyFrame', image=resized_img)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
