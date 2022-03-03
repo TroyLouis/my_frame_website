@@ -7,19 +7,19 @@ from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
 
 def open_img_resize(images):
-    file_name = 'static/images/user_uploads_slider/'
+    file_name = 'static/images/user_uploads_sized/'
     stored_file_name = 'static/images/user_uploads/'
     slider_dict = []
     output = (256,256)
     for image in images:
         image_img = image.image
+        print(image_img)
         stored_file_path = os.path.join(app.root_path, stored_file_name, image_img)
         new_file_path = os.path.join(app.root_path, file_name, image_img)
         j = Image.open(stored_file_path)
         resized_im = j.resize((output))
         resized_im.save(new_file_path)
-        slider_dict.append(resized_im)
-    print(slider_dict)
+        slider_dict.append(image_img)
     return slider_dict
 
 @app.route("/")
