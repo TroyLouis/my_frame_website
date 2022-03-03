@@ -6,29 +6,22 @@ from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
 
-def open_img_resize(images):
-    file_name = 'static/images/user_uploads_sized/'
-    stored_file_name = 'static/images/user_uploads/'
-    slider_dict = []
-    output = (256,256)
-    for image in images:
-        image_img = image.image
-        print(image_img)
-        stored_file_path = os.path.join(app.root_path, stored_file_name, image_img)
-        new_file_path = os.path.join(app.root_path, file_name, image_img)
-        j = Image.open(stored_file_path)
-        resized_im = j.resize((output))
-        resized_im.save(new_file_path)
-        slider_dict.append(image_img)
-    return slider_dict
+def first_three_images_in_db():
+    new_images = Image_Post.query.limit(3).all()
+    image_dict = []
+    for image in new_images:
+        image_dict.append(image)
+    return image_dict
 
 @app.route("/")
 @app.route("/home")
 def home():
-    user_uploads_slider = [Image_Post.query[-1],Image_Post.query[-2],Image_Post.query[-3]]
-    resized_img = open_img_resize(user_uploads_slider)
-    return render_template('home.html', title='MyFrame', image=resized_img)
+    images = first_three_images_in_db()
+    print(images)
+    print("HIIII")
+    return render_template('home.html', title='MyFrame', image=images)
 
+@app.route("/register", methods=['GET', 'POST'])
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -75,6 +68,18 @@ def save_picture(form_picture):
     i.thumbnail(output_size)
     i.save(picture_path)
     return picture_fn
+
+def save_img_256x256(image):
+    file_name = 'static/images/user_uploads_sized/'
+    stored_file_name = 'static/images/user_uploads/'
+    stored_file_path = os.path.join(app.root_path, stored_file_name, image)
+    new_file_path = os.path.join(app.root_path, file_name, image)
+    output = (256,256)
+    with Image.open(stored_file_path) as im:
+        resized_img = im.resize((output))
+        resized_img.save(new_file_path)
+        width,height = im.size
+        print(width,height)
 
 def user_images_group():
     all_images = Image_Post.query.all()
@@ -123,6 +128,7 @@ def new_post():
             post = Image_Post(image=picture_uuid, title=form.title.data, author=current_user)
             db.session.add(post)
             db.session.commit()
+            save_img_256x256(picture_uuid)
             flash('Your image has been uploaded!', 'success')
             return redirect(url_for('account'))
         else:
