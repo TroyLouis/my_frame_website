@@ -25,9 +25,7 @@ def open_img_resize(images):
 @app.route("/home")
 def home():
     user_uploads_slider = [Image_Post.query[-1],Image_Post.query[-2],Image_Post.query[-3]]
-    print(user_uploads_slider)
     resized_img = open_img_resize(user_uploads_slider)
-    print(resized_img)
     return render_template('home.html', title='MyFrame', image=resized_img)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -77,11 +75,19 @@ def save_picture(form_picture):
     i.save(picture_path)
     return picture_fn
 
+def user_images_group():
+    all_images = Image_Post.query.all()
+    empty_images=[]
+    for image in all_images:
+       if image.author.username == current_user.username:
+        empty_images.append(image)
+    return empty_images
+
 @app.route("/account", methods=["GET","POST"])
 @login_required
 def account():
     form = UpdateAccountForm()
-    images = Image_Post.query.all()
+    user_images = user_images_group()
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
@@ -95,7 +101,7 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     profile_picture = url_for('static', filename='images/profile_pictures/' + current_user.profile_picture)
-    return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form, images=images)
+    return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form, images=user_images)
 
 def save_user_upload(user_upload):
     uuid_hex = uuid.uuid4().hex
