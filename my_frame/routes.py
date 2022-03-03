@@ -17,8 +17,6 @@ def first_three_images_in_db():
 @app.route("/home")
 def home():
     images = first_three_images_in_db()
-    print(images)
-    print("HIIII")
     return render_template('home.html', title='MyFrame', image=images)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -134,3 +132,12 @@ def new_post():
         else:
             flash('Please select an image!', 'danger')
     return render_template('create.html', title='MyFrame - New Image', form=form)
+
+@app.route("/edit/<int:id>", methods=["GET","POST"])
+@login_required
+def edit(id):
+    image = Image_Post.query.get_or_404(id)
+    if current_user.id == image.id:
+        return render_template('edit.html', title='MyFrame - Edit Images', image=image)
+    else:
+        return render_template('browse.html', title='MyFrame - Browse Images')

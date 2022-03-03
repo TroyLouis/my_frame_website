@@ -11,6 +11,9 @@
                     <p>Date Joined: <br>{{ current_user.date.strftime('%m-%d-%Y') }}</p>
                     <p>Likes: 15</p>
                     <p>Liked: 235</p>
+                    <div>
+                        <a href="{{ url_for('register')}}" class="btn btn-primary col mb-3">Edit Images</a>
+                    </div>
                     <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Account Settings</a>
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
                         <div class="card card-body">
@@ -54,10 +57,12 @@
                             {{ form.submit(class="btn btn-primary mt-3 mb-2") }}
 
                       </form>
-                        </div>
-                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
+
+            <!-- My Images Section -->
             <div class="col-md-8 mt-4 mt-md-0">
                 <div class="text-center">
                     <h2>My Images</h2>
@@ -67,10 +72,36 @@
                 <div class="row text-center mt-3">
                 {% endif %}
                     <div class="col">
-                        <img class="img-fluid" src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}">
+                        <div class="card border-0">
+                                <a href= "{{ url_for('edit', id=image.id) }}"><img class="card-img" src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}"></a>
+                                <div class="card-body">
+                                <p>{{ image.title }}</p>
+                            </div>
+                        </div>
                     </div>
-
-                    {% if loop.index0 % 3 == 2 or loop.last %}
+                    {% if loop.last and loop.index0 % 3 == 1 %}
+                    <div class="col">
+                        <div class="card border-0">
+                                <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if loop.last and loop.index0 % 3 == 0 %}
+                    <div class="col">
+                        <div class="card border-0">
+                                <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card border-0">
+                                <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% if loop.index0 % 3 == 2 or loop.last %}
                 </div>
                 {% endif %}
                 {% endfor %}
