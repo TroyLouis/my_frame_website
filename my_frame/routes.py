@@ -15,10 +15,9 @@ def open_img_resize(images):
         image_img = image.image
         stored_file_path = os.path.join(app.root_path, stored_file_name, image_img)
         new_file_path = os.path.join(app.root_path, file_name, image_img)
-        img = Image.open(stored_file_path)
-        i = ImageOps.fit(img, output)
-        i.save(new_file_path)
-        slider_dict.append(image_img)
+        with Image.open(stored_file_path + image.image) as im:
+            resized_im = im.resize((256,256))
+        slider_dict.append(resized_im)
     return slider_dict
 
 @app.route("/")
