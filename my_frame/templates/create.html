@@ -4,13 +4,11 @@
 {% block content %}
     <section class="p-5">
          <div class="row">
-            <div class="text-center">
-                <h1 class="p-3">Upload Image</h1>
-            </div>
             <div class="d-flex justify-content-center">
                         <form class="text-center" method="POST" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                     <div class="form-group mb-3">
+                        <legend class="mb-4">{{ legend }}</legend>
                       <label class="mb-2">Username</label>
                         {% if form.title.errors %}
                             {{ form.title(class="form-control mb-1 is-invalid", placeholder="Enter username") }}

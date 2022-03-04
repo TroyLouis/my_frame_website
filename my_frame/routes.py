@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from my_frame import app, db, bcrypt
 from PIL import Image, ImageOps
 from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
@@ -32,7 +32,7 @@ def register():
         db.session.commit()
         flash(f'Your account has been created! You are now able to log in.', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='MyFrame - Register', form=form)
+    return render_template('register.html', title='MyFrame - Register', form=form, legend='New Post')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -137,7 +137,34 @@ def new_post():
 @login_required
 def edit(id):
     image = Image_Post.query.get_or_404(id)
-    if current_user.id == image.id:
-        return render_template('edit.html', title='MyFrame - Edit Images', image=image)
-    else:
-        return render_template('browse.html', title='MyFrame - Browse Images')
+    if current_user.id != image.user_id:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        image.title = form.title.data
+        db.session.commit()
+        flash("Your image has been updated!", 'success')
+        return redirect(url_for('edit', id=image.id))
+    elif request == "GET":
+        form.title.data = image.title
+        form.picture.data = image.image
+    return render_template('edit.html', title='MyFrame - Update Image', image=image,
+                           form=form, legend='Update Post')
+
+@app.route("/edit/<int:id>/delete", methods=["POST"])
+@login_required
+def delete(id):
+    image = Image_Post.query.get_or_404(id)
+    if current_user.id != image.user_id:
+        abort(403)
+    db.session.delete(image)
+    db.session.commit()
+    flash('Your post has been deleted!','success')
+    return redirect(url_for('account'))
+
+@app.route("/browse", methods=["GET","POST"])
+@login_required
+def browse():
+    return render_template('browse.html', title='MyFrame - Browse Images')
+
+

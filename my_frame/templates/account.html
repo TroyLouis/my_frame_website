@@ -72,10 +72,11 @@
                 <div class="row text-center mt-3">
                 {% endif %}
                     <div class="col">
-                        <div class="card border-0">
+                        <div class="card border-1">
                                 <a href= "{{ url_for('edit', id=image.id) }}"><img class="card-img" src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}"></a>
                                 <div class="card-body">
-                                <p>{{ image.title }}</p>
+                                <p class="mb-0 mt-0">{{ image.title }}</p>
+                                <p class="mt-0">{{ image.date_posted.strftime('%m-%d-%Y') }}</p>
                             </div>
                         </div>
                     </div>
