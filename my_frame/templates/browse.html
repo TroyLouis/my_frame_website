@@ -1,1 +1,73 @@
 {% extends 'layout.html' %}
+
+{% block content %}
+<section class="p-5">
+    <div class="container">
+        <div class=''>
+            <div class="text-center">
+                <h2>All Images</h2>
+            </div>
+                {% for image in image.items %}
+                {% if loop.index0 % 3 == 0 %}
+            <div class="row text-center mt-3">
+                {% endif %}
+                <div class="col">
+                    <div class="card border-1">
+                        <img class="card-img" src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}">
+                        <div class="card-body d-none d-md-block">
+                            <p class="mb-0 mt-0">{{ image.title }}</p>
+                            <p class="mt-0">{{ image.date_posted.strftime('%m-%d-%Y') }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% if loop.last and loop.index0 % 3 == 1 %}
+                <div class="col">
+                    <div class="card border-0">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if loop.last and loop.index0 % 3 == 0 %}
+                <div class="col">
+                    <div class="card border-0">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if loop.index0 % 3 == 2 or loop.last %}
+            </div>
+            {% endif %}
+            {% endfor %}
+
+<!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in image.iter_pages(right_current= 2, left_current=2) %}
+{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+            {% if image.page == page_num %}
+            <a href="{{ url_for('browse', page=page_num)}}"
+               class="btn btn-dark">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('browse', page=page_num)}}"
+               class="btn btn-outline-dark">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

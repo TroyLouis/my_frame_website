@@ -5,11 +5,12 @@ from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostF
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
+from sqlalchemy import desc
 
 def first_three_images_in_db():
-    new_images = Image_Post.query.limit(3).all()
+    images = Image_Post.query.order_by(desc(Image_Post.id)).limit(3)
     image_dict = []
-    for image in new_images:
+    for image in images:
         image_dict.append(image)
     return image_dict
 
@@ -165,6 +166,8 @@ def delete(id):
 @app.route("/browse", methods=["GET","POST"])
 @login_required
 def browse():
-    return render_template('browse.html', title='MyFrame - Browse Images')
+    page = request.args.get('page', 1, type=int)
+    images = Image_Post.query.paginate(page=page, per_page=1)
+    return render_template('browse.html', title='MyFrame - Browse Images', image=images)
 
 
