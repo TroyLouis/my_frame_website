@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="p-5">
+    <div class="container">
+        <div class="d-flex flex-column align-items-center">
+        <h1 class="p-3">Reset Your Password</h1>
+            <div class="col-6">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <div class="form-group mb-3">
+                    <label class="mb-2">Reset Password</label>
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control mb-1 is-invalid", placeholder="Enter email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.password(class="form-control mb-1", placeholder="Enter email") }}
+                        {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    <label class="mb-2">Reset Password</label>
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="form-control mb-1 is-invalid", placeholder="Enter email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.confirm_password(class="form-control mb-1", placeholder="Enter email") }}
+                        {% endif %}
+                </div>
+                <div class="text-center">
+                    {{ form.submit(class="btn btn-primary mt-3 mb-2") }}
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

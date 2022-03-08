@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="p-5">
+    <div class="container">
+        <div class="d-flex flex-column align-items-center">
+        <h1 class="p-3">Reset Your Password</h1>
+            <div class="col-6">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <div class="form-group mb-3">
+                    <label class="mb-2">Email address</label>
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control mb-1 is-invalid", placeholder="Enter email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.email(class="form-control mb-1", placeholder="Enter email") }}
+                        {% endif %}
+                </div>
+                <div class="text-center">
+                    {{ form.submit(class="btn btn-primary mt-3 mb-2") }}
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

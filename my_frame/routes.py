@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort
 from my_frame import app, db, bcrypt
-from PIL import Image, ImageOps
-from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
+from PIL import Image
+from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, RequestResetForm, ResetPasswordForm
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
@@ -167,7 +167,38 @@ def delete(id):
 @login_required
 def browse():
     page = request.args.get('page', 1, type=int)
-    images = Image_Post.query.paginate(page=page, per_page=1)
+    images = Image_Post.query.order_by(Image_Post.date_posted.desc()).paginate(page=page, per_page=12)
     return render_template('browse.html', title='MyFrame - Browse Images', image=images)
 
+@app.route("/user/<string:username>")
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    images = Image_Post.query.filter_by(author=user).order_by(Image_Post.date_posted.desc()).paginate(page=page, per_page=15)
+    return render_template('browse_user.html', image=images, user=user)
 
+def send_reset_email(user):
+    pass
+
+@app.route("/reset_password", methods=["GET","POST"])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instruction to reset your password','info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='MyFrame - Reset Password', form=form)
+
+@app.route("/reset_password/<token>", methods=["GET","POST"])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token,', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm
+    return render_template('reset_token.html', title='MyFrame - Reset Password', form=form)
