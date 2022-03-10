@@ -1,8 +1,9 @@
 from flask_restful import Resource,reqparse, abort
 from my_frame.models import Image_Post
-
-image_ids = {}
-
+from my_frame import app
+from flask import url_for, redirect
+import os
+image_ids={}
 def abort_if_nil_id(image_id):
     if image_id not in image_ids:
         abort(404, message='Item is unavailable.')
@@ -11,15 +12,19 @@ def abort_if_id_exists(image_id):
     if image_id in image_ids:
         abort(409, message="Already exists")
 
+def query_image(image_id):
+    result = Image_Post.query.filter_by(id=image_id)
+    for image in result:
+        return image.image
+
 
 image_id_args = reqparse.RequestParser()
 image_id_args.add_argument("image_post_id", type=int, help="Image Post ID is required.", required=True)
 
 class FetchPost(Resource):
     def get(self, image_id):
-        result = Image_Post.query.filter_by(id=image_id)
-        for item in result:
-            return item.image
+        image = query_image(image_id)
+        return redirect(url_for('static', filename='images/user_uploads/' + image))
 
     def put(self, image_id):
         abort_if_id_exists(image_id)
