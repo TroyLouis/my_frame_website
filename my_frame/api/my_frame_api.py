@@ -1,5 +1,5 @@
 from flask_restful import Resource,reqparse, abort
-from my_frame.models import Image_Post
+from my_frame.models import Image_Post, User
 from my_frame import app
 from flask import url_for, redirect
 import os
@@ -16,6 +16,17 @@ def query_image(image_id):
     result = Image_Post.query.filter_by(id=image_id)
     for image in result:
         return image.image
+
+def get_user_set_image(email):
+    email_exists = []
+    result = User.query.filter_by(email=email)
+    for item in result:
+        email_exists.append(item.id)
+    if not email_exists:
+        abort(404, message="Does not exist.")
+    return email_exists
+
+
 
 
 image_id_args = reqparse.RequestParser()
@@ -36,6 +47,11 @@ class FetchPost(Resource):
         abort_if_nil_id(image_id)
         del image_ids[image_id]
         return "", 204
+
+class FetchSetImage(Resource):
+    def get(self, email):
+        user_id = get_user_set_image(email)
+        return user_id
 
 
 

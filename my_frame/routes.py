@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort
 from my_frame import app, db, bcrypt, mail
 from PIL import Image
-from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, RequestResetForm, ResetPasswordForm
+from my_frame.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, RequestResetForm, ResetPasswordForm, SetActiveForm
 from my_frame.models import User, Image_Post
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets, os, uuid
@@ -216,3 +216,14 @@ def reset_token(token):
         flash(f'Your password has been changed. You may now login.', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='MyFrame - Reset Password', form=form)
+
+
+@app.route("/images/<int:id>", methods=["GET","POST"])
+def view_single_image(id):
+    image = Image_Post.query.get_or_404(id)
+    form = SetActiveForm()
+    single_image = image
+    if form.validate_on_submit():
+        flash(f'Your active image has been changed to {single_image.title}', 'success')
+
+    return render_template('view_single_image.html', form=form, title='MyFrame - Browse Images', image=single_image)

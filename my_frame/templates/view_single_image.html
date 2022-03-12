@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block content%}
+<section class="p-5">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="mb-5">{{image.title}}</h1>
+            <img src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}">
+            <p class="mt-5"> Posted by: {{ image.author.username }} </p>
+            <p> Posted on: {{ image.author.date.strftime('%m-%d-%Y') }}</p>
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                    <div class="form-group mb-3 d-flex flex-column align-items-center">
+                        {{ form.submit(class="btn btn-primary mt-3 mb-2 btn-sm") }}
+                    </div>
+                </form>
+        </div>
+    </div>
+</section>
+{% endblock content %}
