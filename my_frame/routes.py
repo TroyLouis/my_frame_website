@@ -219,11 +219,14 @@ def reset_token(token):
 
 
 @app.route("/images/<int:id>", methods=["GET","POST"])
+@login_required
 def view_single_image(id):
     image = Image_Post.query.get_or_404(id)
     form = SetActiveForm()
     single_image = image
     if form.validate_on_submit():
+        current_user.active_image = single_image.image
+        db.session.commit()
         flash(f'Your active image has been changed to {single_image.title}', 'success')
 
     return render_template('view_single_image.html', form=form, title='MyFrame - Browse Images', image=single_image)

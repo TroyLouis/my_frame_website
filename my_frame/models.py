@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     profile_picture = db.Column(db.String(20), nullable=False, default='default.png')
     password = db.Column(db.String(60), nullable=False)
     images = db.relationship('Image_Post', backref='author', lazy=True)
-
+    active_image = db.Column(db.String(20), nullable=False, default='default.png')
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)

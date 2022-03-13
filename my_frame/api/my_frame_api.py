@@ -17,7 +17,7 @@ def query_image(image_id):
     for image in result:
         return image.image
 
-def get_user_set_image(email):
+def get_user_id(email):
     email_exists = []
     result = User.query.filter_by(email=email)
     for item in result:
@@ -26,8 +26,13 @@ def get_user_set_image(email):
         abort(404, message="Does not exist.")
     return email_exists
 
-
-
+def get_active_image(id):
+    user = User.query.filter_by(id=id)
+    for item in user:
+        if not item:
+            abort(404, message="Does not exist.")
+        else:
+            return item.active_image
 
 image_id_args = reqparse.RequestParser()
 image_id_args.add_argument("image_post_id", type=int, help="Image Post ID is required.", required=True)
@@ -50,8 +55,9 @@ class FetchPost(Resource):
 
 class FetchSetImage(Resource):
     def get(self, email):
-        user_id = get_user_set_image(email)
-        return user_id
+        user_id = get_user_id(email)[0]
+        active_image = get_active_image(user_id)
+        return redirect(url_for('static', filename='images/user_uploads/' + active_image))
 
 
 
