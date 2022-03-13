@@ -1,0 +1,98 @@
+WindowManager:
+    MainWindow:
+    SecondWindow:
+
+<MainWindow>:
+    id: main_window
+    name: "main"
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 50
+
+        Label:
+            text: "Email"
+            color: 0,0,0,1
+            font_size: 32
+
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Email Address:"
+                color: 0,0,0,1
+
+            TextInput:
+                id: user_email_input
+                size_hint_y: None
+                pos_hint: {'center_y': .5}
+                height: 38
+                multiline: False
+                padding: 10
+
+        BoxLayout:
+            orientation: "horizontal"
+
+            Label:
+                text: "Display Landscape Mode?"
+                color: 0,0,0,1
+            CheckBox:
+                id: checkbox_confirm_mode
+                on_active:
+                    root.checkbox_click_mode(self, self.active)
+                pos_hint: {'center_x': .5}
+
+        BoxLayout:
+            orientation: "horizontal"
+
+            Label:
+                text: "Stretch image to fill screen?"
+                color: 0,0,0,1
+            CheckBox:
+                id: checkbox_confirm_stretch
+                on_active:
+                    root.checkbox_click_stretch(self, self.active)
+                pos_hint: {'center_x': .5}
+
+        BoxLayout:
+            orientation: "horizontal"
+
+            Label:
+                text: "I double-checked that my email is typed correctly:"
+                color: 0,0,0,1
+            CheckBox:
+                id: checkbox_confirm_email
+                on_active:
+                    root.checkbox_click(self, self.active)
+                    root.disable_button()
+                pos_hint: {'center_x': .5}
+
+        BoxLayout
+            orientation: "vertical"
+
+            Button:
+                id:submit_button
+                text: "Submit"
+                disabled: True
+                size_hint: (0.2, None)
+                pos_hint: {'center_x': .5}
+                height: 50
+
+                on_release:
+                    app.root.current = "second"
+                    root.manager.transition.direction = "left"
+
+<SecondWindow>:
+    id: second_window
+    name: "second"
+    canvas:
+        Rotate:
+            angle: root.angle
+            origin: self.center
+
+    Image:
+        source: root.sources
+        keep_ratio: True
+        allow_stretch: root.allow_strech
+
+
