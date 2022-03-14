@@ -29,7 +29,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data.lower(), password=hashed_password)
+        user = User(username=form.username.data.lower(), email=form.email.data.lower(), password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created! You are now able to log in.', 'success')
@@ -98,7 +98,7 @@ def account():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.profile_picture = picture_file
-        current_user.username = form.username.data
+        current_user.username = form.username.data.lower()
         current_user.email = form.email.data
         db.session.commit()
         flash(f'Your account has been updated!', 'success')

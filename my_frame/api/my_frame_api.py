@@ -42,17 +42,19 @@ class FetchPost(Resource):
         image = query_image(image_id)
         return redirect(url_for('static', filename='images/user_uploads/' + image))
 
+    '''
     def put(self, image_id):
         abort_if_id_exists(image_id)
         args = image_id_args.parse_args()
         image_ids[image_id] = args
         return image_ids
-
+    '''
+    '''
     def delete(self,image_id):
         abort_if_nil_id(image_id)
         del image_ids[image_id]
         return "", 204
-
+    '''
 class FetchSetImage(Resource):
     def get(self, email):
         user_id = get_user_id(email)[0]
