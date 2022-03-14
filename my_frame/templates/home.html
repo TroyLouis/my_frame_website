@@ -22,9 +22,9 @@
                 <div class="col-md d-flex">
                    <div class="card text-dark">
                        <div class="card-body text-center">
-                            <img src="/static/images/GitHub-Mark-64px.png" alt="" class="img-fluid w-25 mb-2">
+                            <img src="{{url_for('static', filename='/images/miscellanious/github.png')}}" alt="" class="img-fluid w-25 mb-2">
                             <h3 class="card-title mb-3">Open Source</h3>
-                            <p class="card-text">MyFrame is Open Source, free and maintained by a group of tech enthusiasts. Contribute today!</p>
+                            <p class="card-text">MyFrame is Open Source and we're always looking for new contributors!</p>
                         </div>
                         <div>
                             <a href="https://github.com/TroyLouis/MyFrame" class="btn btn-primary align-self-center mb-4">Github</a>
@@ -34,19 +34,19 @@
                 <div class="col-md d-flex">
                     <div class="card text-dark">
                         <div class="card-body text-center">
-                            <img src="static/images/tick-mark.png" alt="" class="img-fluid w-25 mb-2">
+                            <img src="{{url_for('static', filename='/images/miscellanious/check.png')}}" alt="" class="img-fluid w-25 mb-2">
                             <h3 class="card-title mb-3">Easy Setup</h3>
                             <p class="card-text">MyFrame is easy to setup and install. Grab your Rasberry Pi and start today! </p>
                         </div>
                         <div>
-                            <a href="" class="btn btn-primary align-self-center mb-4">Setup Guide</a>
+                            <a href="{{url_for('setup')}}" class="btn btn-primary align-self-center mb-4">Setup Guide</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md d-flex">
                     <div class="card text-dark">
                         <div class="card-body text-center ">
-                            <img src="/static/images/multiple-users-silhouette.png" alt="" class="img-fluid w-25 mb-2">
+                            <img src="{{url_for('static', filename='/images/miscellanious/community.png')}}" alt="" class="img-fluid w-25 mb-2">
                             <h3 class="card-title mb-3">Community</h3>
                             <p class="card-text">In the feed you will find stunning imagery from the community to.</p>
                         </div>
