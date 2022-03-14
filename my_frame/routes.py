@@ -230,3 +230,7 @@ def view_single_image(id):
         flash(f'Your active image has been changed to {single_image.title}', 'success')
 
     return render_template('view_single_image.html', form=form, title='MyFrame - Browse Images', image=single_image)
+
+@app.route("/setup")
+def setup():
+    return render_template('setup_guide.html', title='MyFrame - Setup')
