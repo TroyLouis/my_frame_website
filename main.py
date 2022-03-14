@@ -5,7 +5,7 @@ from kivy.core.window import Window
 from kivy.properties import NumericProperty, BooleanProperty, StringProperty
 from kivy.config import Config
 import requests
-import os, sys
+import os
 
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
