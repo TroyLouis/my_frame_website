@@ -5,20 +5,34 @@ from kivy.core.window import Window
 from kivy.properties import NumericProperty, BooleanProperty, StringProperty
 from kivy.config import Config
 import requests
-import os
+import os, sys
 
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
+def validate_email(email):
+    char_count = email.count("@")
+    if char_count < 1 or char_count > 2:
+        return False
+    return True
+
 def call_api_save_image(email):
-    r = requests.get("http://127.0.0.1:5000/api/v1/set_image/"+email)
-    data = r.content
-    url = r.request.url
-    image_name = url.rsplit('/', 1)[-1]
-    image_type = url.rsplit(".",1)[-1]
-    with open(image_name, 'wb') as x:
-        x.write(data)
-    os.rename(image_name, 'set_image' + '.' + image_type)
-    return ('set_image' + '.' + image_type)
+    if validate_email(email):
+        r = requests.get("http://127.0.0.1:5000/api/v1/set_image/"+email)
+        if r.status_code == 200:
+            data = r.content
+            url = r.request.url
+            image_name = url.rsplit('/', 1)[-1]
+            image_type = url.rsplit(".",1)[-1]
+            with open(image_name, 'wb') as x:
+                x.write(data)
+            os.rename(image_name, 'set_image' + '.' + image_type)
+            return ('set_image' + '.' + image_type)
+        else:
+            App.get_running_app().stop()
+            return "Please enter the email address registered on MyFrame."
+    else:
+        App.get_running_app().stop()
+        return "Please enter your valid MyFrame email address."
 
 class MainWindow(Screen):
     def on_pre_enter(self):
@@ -36,7 +50,10 @@ class MainWindow(Screen):
         return value
 
     def disable_button(self):
+        screen = self.manager.get_screen("main")
         if self.ids.checkbox_confirm_email.active == False:
+            self.ids.submit_button.disabled = True
+        elif screen.ids.user_email_input.text == '':
             self.ids.submit_button.disabled = True
         else:
             self.ids.submit_button.disabled = False
@@ -45,7 +62,7 @@ class SecondWindow(Screen):
     angle = NumericProperty(0)
     allow_strech = BooleanProperty(False)
     sources = StringProperty('set_image.jpg')
-    user_input_email = StringProperty('troy@gmail.com')
+    user_input_email = StringProperty()
     def on_pre_enter(self):
         screen = self.manager.get_screen("main")
         angle_value = screen.ids.checkbox_confirm_mode.active
