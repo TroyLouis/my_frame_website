@@ -22,7 +22,6 @@ def home():
     return render_template('home.html', title='MyFrame', image=images)
 
 @app.route("/register", methods=['GET', 'POST'])
-@app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -142,6 +141,13 @@ def edit(id):
     if current_user.id != image.user_id:
         abort(403)
     form = PostForm()
+    image = Image_Post.query.get_or_404(id)
+    form2 = SetActiveForm()
+    single_image = image
+    if form2.validate_on_submit():
+        current_user.active_image = single_image.image
+        db.session.commit()
+        flash(f'Your active image has been changed to {single_image.title}', 'success')
     if form.validate_on_submit():
         image.title = form.title.data
         db.session.commit()
@@ -151,7 +157,7 @@ def edit(id):
         form.title.data = image.title
         form.picture.data = image.image
     return render_template('edit.html', title='MyFrame - Update Image', image=image,
-                           form=form, legend='Update Post')
+                           form=form, form2=form2, legend='Update Post')
 
 @app.route("/edit/<int:id>/delete", methods=["POST"])
 @login_required
@@ -165,7 +171,7 @@ def delete(id):
     return redirect(url_for('account'))
 
 @app.route("/browse", methods=["GET","POST"])
-@login_required
+#@login_required
 def browse():
     page = request.args.get('page', 1, type=int)
     images = Image_Post.query.order_by(Image_Post.date_posted.desc()).paginate(page=page, per_page=12)

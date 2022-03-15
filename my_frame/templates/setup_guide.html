@@ -41,8 +41,11 @@
     </h2>
     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
       <div class="accordion-body">
-          <p>You have all your components, and you are ready to start. First things first, we need to setup our Raspberry Pi and install pip. Here are the necessary links for you to follow:</p>
+          <p>You have all your components, and you are ready to start. First things first, we need to setup your profile and configure your Raspberry Pi. Here are the necessary links for you to follow:</p>
           <ol>
+              <li>
+                  <a href="#">Register</a> an account on MyFrame
+              </li>
               <li>
                   <a href="https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/0">Set up</a> your Raspberry Pi
               </li>
@@ -64,9 +67,6 @@
       <div class="accordion-body">
           <p>You have your Raspberry Pi configured and pip is downloaded. Your monitor is connected to a power source, your raspberry pi is connected to a power source, and your mouse and keyboard are connected to the pi!</p>
           <ol>
-              <li>
-                  <a href="#">Register</a> an account on MyFrame. Without an account our API won't pull your images.
-              </li>
               <li>
                   Clone the <a href="https://github.com/TroyLouis/MyFrame">MyFrame</a> repository on Github to your desktop.
                   <br/>
@@ -99,8 +99,8 @@
                   Enter your registered email address, select image modifications, and click submit!
               </li>
           </ol>
-                    <div class="text-center">
-          <img src="{{ url_for('static', filename='images/miscellanious/GUI.png')}}">
+          <div class="text-center">
+              <img class="img-fluid" src="{{ url_for('static', filename='images/miscellanious/GUI.png')}}">
           </div>
 
       </div>

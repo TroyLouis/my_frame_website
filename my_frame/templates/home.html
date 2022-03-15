@@ -8,7 +8,11 @@
                     <h1>MyFrame</h1>
                     <img class="img-fluid w-50 d-md-none" src="/static/images/MyFrame_Hero.gif" alt="My Frame Hero Banner">
                     <p class="lead my-3">The open source digital art frame.</p>
-                <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('setup') }}" class="btn btn-primary">Setup Guide</a>
+                    {% else %}
+                        <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
+                    {% endif %}
                 </div>
                 <img class="img-fluid w-50 d-none d-md-block" src="/static/images/MyFrame_Hero.gif" alt="My Frame Hero Banner">
             </div>
@@ -22,7 +26,7 @@
                 <div class="col-md d-flex">
                    <div class="card text-dark">
                        <div class="card-body text-center">
-                            <img src="{{url_for('static', filename='/images/miscellanious/github.png')}}" alt="" class="img-fluid w-25 mb-2">
+                            <img src="{{url_for('static', filename='/images/miscellanious/github.png')}}" alt="" class="img-fluid mb-2">
                             <h3 class="card-title mb-3">Open Source</h3>
                             <p class="card-text">MyFrame is Open Source and we're always looking for new contributors!</p>
                         </div>
@@ -34,7 +38,7 @@
                 <div class="col-md d-flex">
                     <div class="card text-dark">
                         <div class="card-body text-center">
-                            <img src="{{url_for('static', filename='/images/miscellanious/check.png')}}" alt="" class="img-fluid w-25 mb-2">
+                            <img src="{{url_for('static', filename='/images/miscellanious/check.png')}}" alt="" class="img-fluid mb-2">
                             <h3 class="card-title mb-3">Easy Setup</h3>
                             <p class="card-text">MyFrame is easy to setup and install. Grab your Rasberry Pi and start today! </p>
                         </div>
@@ -46,9 +50,9 @@
                 <div class="col-md d-flex">
                     <div class="card text-dark">
                         <div class="card-body text-center ">
-                            <img src="{{url_for('static', filename='/images/miscellanious/community.png')}}" alt="" class="img-fluid w-25 mb-2">
+                            <img src="{{url_for('static', filename='/images/miscellanious/community.png')}}" alt="" class="img-fluid mb-2">
                             <h3 class="card-title mb-3">Community</h3>
-                            <p class="card-text">In the feed you will find stunning imagery from the community to.</p>
+                            <p class="card-text">In the feed you will find eclectic images from our community members.</p>
                         </div>
                         <div>
                             <a href="{{ url_for('browse') }}" class="btn btn-primary align-self-center mb-4">View Feed</a>
