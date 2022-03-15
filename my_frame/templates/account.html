@@ -12,7 +12,7 @@
                     <p>Likes: 15</p>
                     <p>Liked: 235</p>
                     <div>
-                        <a href="{{ url_for('register')}}" class="btn btn-primary col mb-3">Edit Images</a>
+                        <a href="{{ url_for('users.register')}}" class="btn btn-primary col mb-3">Edit Images</a>
                     </div>
                     <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Account Settings</a>
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
@@ -73,7 +73,7 @@
                 {% endif %}
                     <div class="col">
                         <div class="card border-1">
-                                <a href= "{{ url_for('edit', id=image.id) }}"><img class="card-img" src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}"></a>
+                                <a href= "{{ url_for('posts.edit', id=image.id) }}"><img class="card-img" src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}"></a>
                                 <div class="card-body d-none d-md-block">
                                 <p class="mb-0 mt-0">{{ image.title }}</p>
                                 <p class="mt-0">{{ image.date_posted.strftime('%m-%d-%Y') }}</p>

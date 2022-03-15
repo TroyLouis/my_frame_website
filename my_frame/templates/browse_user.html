@@ -52,12 +52,12 @@
 {% if page_num %}
 <!-- Check for the active page and set the link to "Active"-->
             {% if image.page == page_num %}
-            <a href="{{ url_for('browse', page=page_num)}}"
+            <a href="{{ url_for('posts.browse', page=page_num)}}"
                class="btn btn-dark">
                 {{ page_num }}
             </a>
             {% else %}
-            <a href="{{ url_for('browse', page=page_num)}}"
+            <a href="{{ url_for('posts.browse', page=page_num)}}"
                class="btn btn-outline-dark">
                 {{ page_num }}
             </a>

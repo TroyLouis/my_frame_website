@@ -5,13 +5,12 @@
     <section class="p-5">
          <div class="row">
             <div class="d-flex justify-content-center">
-                        <form class="text-center" method="POST" enctype="multipart/form-data">
+                <form class="text-center" method="POST" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                     <div class="form-group mb-3">
                         <legend class="mb-4">{{ legend }}</legend>
-                      <label class="mb-2">Username</label>
                         {% if form.title.errors %}
-                            {{ form.title(class="form-control mb-1 is-invalid", placeholder="Enter username") }}
+                            {{ form.title(class="form-control mb-1 is-invalid", placeholder="Enter title") }}
                         <div class="invalid-feedback">
                             {% for error in form.title.errors %}
                                 <span>{{ error }}</span>
@@ -33,7 +32,7 @@
                             {{ form.picture(class="form-control-file", id="formFile", onchange="preview()") }}
                         {% endif %}
                         </div>
-                    <img id="frame" src="" class="img-fluid mt-5 border" />
+                    <img id="frame" src="" class="img-fluid mt-5 border custom-size" />
                     <div class="text-center">
                         {{ form.submit(class="btn btn-primary mt-3 mb-2") }}
                     </div>

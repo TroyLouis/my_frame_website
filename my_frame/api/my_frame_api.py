@@ -1,8 +1,7 @@
 from flask_restful import Resource,reqparse, abort
 from my_frame.models import Image_Post, User
-from my_frame import app
 from flask import url_for, redirect
-import os
+
 image_ids={}
 def abort_if_nil_id(image_id):
     if image_id not in image_ids:

@@ -1,30 +1,38 @@
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from my_frame.config import Config
 
 #app config, db, encryption, loginmanager
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '93eafc13ec683d9b43358e5afc236714'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-
-#app API
-from my_frame.api import api_blueprint
-app.register_blueprint(api_blueprint, url_prefix="/api/v1")
+mail = Mail()
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
 
 #user must be logged in to show page & styling it blue
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = '587'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
-app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
-mail = Mail(app)
 
-from my_frame import routes
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    mail.init_app(app)
+    db.init_app(app)
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
+
+    from my_frame.api import api_blueprint
+    from my_frame.posts.routes import posts
+    from my_frame.users.routes import users
+    from my_frame.main.routes import main
+
+    #blueprints
+    app.register_blueprint(api_blueprint, url_prefix="/api/v1")
+    app.register_blueprint(main)
+    app.register_blueprint(posts)
+    app.register_blueprint(users)
+
+    return app
