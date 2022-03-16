@@ -4,3 +4,7 @@
   width: auto;
   height: auto;
 }
+
+.small-btc-address {
+font-size: 10px;
+}
