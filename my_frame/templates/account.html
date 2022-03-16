@@ -9,8 +9,10 @@
                     <h2 class="account-heading mt-3 mb-3">{{ current_user.username }}</h2>
                     <p>{{ current_user.email }}</p>
                     <p>Date Joined: <br>{{ current_user.date.strftime('%m-%d-%Y') }}</p>
+                    <!-- static likes data for future add!
                     <p>Likes: 15</p>
                     <p>Liked: 235</p>
+                    -->
                     <div>
                         <a href="{{ url_for('users.register')}}" class="btn btn-primary col mb-3">Edit Images</a>
                     </div>
