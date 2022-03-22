@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from my_frame import db
 from my_frame.models import Image_Post
 from my_frame.posts.forms import PostForm, SetActiveForm
-from my_frame.posts.utils import fn_to_uuid, upload_file_to_s3, del_file_from_s3
+from my_frame.posts.utils import fn_to_uuid, upload_file_to_s3, del_file_from_s3, s3bucket_getfile
 from my_frame.config import Config
 
 posts = Blueprint('posts', __name__)
@@ -17,8 +17,8 @@ def new_post():
         if form.picture.data:
             picture_uuid = fn_to_uuid(form.picture.data)
             upload_file_to_s3(picture_uuid, bucket_name=Config.S3_BUCKET)
-            post = Image_Post(image=picture_uuid.filename, title=form.title.data, author=current_user)
-            print(post)
+            uuid_filename = picture_uuid.filename
+            post = Image_Post(image_uuid=uuid_filename, title=form.title.data, author=current_user)
             db.session.add(post)
             db.session.commit()
             flash('Your image has been uploaded!', 'success')
@@ -72,16 +72,15 @@ def browse():
     images = Image_Post.query.order_by(Image_Post.date_posted.desc()).paginate(page=page, per_page=12)
     return render_template('browse.html', title='MyFrame - Browse Images', image=images)
 
-
 @posts.route("/posts/<int:id>", methods=["GET","POST"])
 @login_required
 def view_single_image(id):
     image = Image_Post.query.get_or_404(id)
+    image_uuid = image.image_uuid
     form = SetActiveForm()
-    single_image = image
     if form.validate_on_submit():
-        current_user.active_image = single_image.image
+        current_user.active_image = image_uuid
         db.session.commit()
-        flash(f'Your active image has been changed to {single_image.title}', 'success')
+        flash(f'Your active image has been changed to {image.title}', 'success')
 
-    return render_template('view_single_image.html', form=form, title='MyFrame - Browse Images', image=single_image)
+    return render_template('view_single_image.html', form=form, title='MyFrame - Browse Images', fn=image_uuid, image=image)

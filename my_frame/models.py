@@ -39,7 +39,7 @@ class Image_Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     title = db.Column(db.String(100), nullable=False, default='Cool Image')
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    image = db.Column(db.Text, nullable=False)
+    image_uuid = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f"User('{self.title}', '{self.date_posted}', {self.image})"
+        return f"User('{self.title}', '{self.date_posted}', {self.image_uuid})"

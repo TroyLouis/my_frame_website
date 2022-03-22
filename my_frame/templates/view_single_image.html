@@ -5,7 +5,7 @@
     <div class="container">
         <div class="text-center">
             <h1 class="mb-5">{{image.title}}</h1>
-            <img src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}">
+            <img class='sized-256' src="https://myframebucket.s3.amazonaws.com/{{fn}}">
             <p class="mt-5"> Posted by: {{ image.author.username }} </p>
             <p> Posted on: {{ image.author.date.strftime('%m-%d-%Y') }}</p>
             <form method="POST" action="">

@@ -7,3 +7,4 @@ s3 = boto3.client(
    aws_secret_access_key=Config.S3_SECRET
 )
 
+s3_resource = boto3.resource('s3')

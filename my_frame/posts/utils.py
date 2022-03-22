@@ -1,5 +1,5 @@
 import uuid
-from my_frame.s3 import s3
+from my_frame.s3 import s3, s3_resource
 from my_frame.config import Config
 
 
@@ -56,3 +56,7 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
 
 def del_file_from_s3(fn):
     s3.delete_object(Bucket='myframebucket', Key=fn)
+
+def s3bucket_getfile(fn):
+    obj = s3.get_object(Bucket=Config.S3_BUCKET, Key=fn)
+    return obj

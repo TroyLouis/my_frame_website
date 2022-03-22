@@ -13,7 +13,7 @@
                 {% endif %}
                 <div class="col">
                     <div class="card border-1">
-                        <a href="{{ url_for('posts.view_single_image', id=image.id)}}"><img class="card-img" src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image) }}"></a>
+                        <a href="{{ url_for('posts.view_single_image', id=image.id)}}"><img class="card-img sized-256" src="https://myframebucket.s3.amazonaws.com/{{image.image_uuid}}"></a>
                         <div class="card-body d-none d-md-block">
                             <p class="mb-0 mt-0">{{ image.title }}</p>
                             <p class="mt-0">{{ image.date_posted.strftime('%m-%d-%Y') }}</p>
