@@ -18,7 +18,6 @@ login_manager.login_message_category = 'info'
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
-
     mail.init_app(app)
     db.init_app(app)
     bcrypt.init_app(app)

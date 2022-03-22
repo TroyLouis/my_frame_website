@@ -3,7 +3,8 @@ from flask_login import current_user, login_required
 from my_frame import db
 from my_frame.models import Image_Post
 from my_frame.posts.forms import PostForm, SetActiveForm
-from my_frame.posts.utils import save_img_256x256, save_user_upload
+from my_frame.posts.utils import fn_to_uuid, upload_file_to_s3, del_file_from_s3
+from my_frame.config import Config
 
 posts = Blueprint('posts', __name__)
 
@@ -14,11 +15,12 @@ def new_post():
     form = PostForm()
     if form.validate_on_submit():
         if form.picture.data:
-            picture_uuid = save_user_upload(form.picture.data)
-            post = Image_Post(image=picture_uuid, title=form.title.data, author=current_user)
+            picture_uuid = fn_to_uuid(form.picture.data)
+            upload_file_to_s3(picture_uuid, bucket_name=Config.S3_BUCKET)
+            post = Image_Post(image=picture_uuid.filename, title=form.title.data, author=current_user)
+            print(post)
             db.session.add(post)
             db.session.commit()
-            save_img_256x256(picture_uuid)
             flash('Your image has been uploaded!', 'success')
             return redirect(url_for('users.account'))
         else:
@@ -54,10 +56,12 @@ def edit(id):
 @login_required
 def delete(id):
     image = Image_Post.query.get_or_404(id)
+    image_uuid = image.image
     if current_user.id != image.user_id:
         abort(403)
     db.session.delete(image)
     db.session.commit()
+    del_file_from_s3(image_uuid)
     flash('Your post has been deleted!','success')
     return redirect(url_for('users.account'))
 
