@@ -39,7 +39,7 @@ image_id_args.add_argument("image_post_id", type=int, help="Image Post ID is req
 class FetchPost(Resource):
     def get(self, image_id):
         image = query_image(image_id)
-        return redirect(url_for('static', filename='images/user_uploads/' + image))
+        return
 
     '''
     def put(self, image_id):

@@ -9,6 +9,6 @@ class Config:
     MAIL_USERNAME = os.environ.get('EMAIL_USER')
     MAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
     S3_BUCKET = 'myframebucket'
-    S3_KEY = 'AKIA3QLTWDC2724JY3QW'
-    S3_SECRET = '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'
+    S3_KEY = os.environ.get('S3_KEY')
+    S3_SECRET = os.environ.get('S3_SECRET')
     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
