@@ -3,7 +3,7 @@
 <section class="p-5">
     <div class="container">
         <div class="text-center">
-            <img src="{{ url_for('static', filename='images/user_uploads_sized/' + image.image_uuid) }}">
+            <img class="card-img sized-256" src="https://myframebucket.s3.amazonaws.com/{{image.image_uuid}}">
             <h2 class="mb-3 mt-3">{{ image.title }}</h2>
             <p class="">Date Posted: {{ image.date_posted.strftime('%m-%d-%Y') }}</p>
         </div>

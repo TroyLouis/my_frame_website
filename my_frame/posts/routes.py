@@ -38,7 +38,7 @@ def edit(id):
     form2 = SetActiveForm()
     single_image = image
     if form2.validate_on_submit():
-        current_user.active_image = single_image.image
+        current_user.active_image = single_image.image_uuid
         db.session.commit()
         flash(f'Your active image has been changed to {single_image.title}', 'success')
     if form.validate_on_submit():
@@ -48,7 +48,7 @@ def edit(id):
         return redirect(url_for('posts.edit', id=image.id))
     elif request == "GET":
         form.title.data = image.title
-        form.picture.data = image.image
+        form.picture.data = image.image_uuid
     return render_template('edit.html', title='MyFrame - Update Image', image=image,
                            form=form, form2=form2, legend='Update Post')
 
