@@ -5,7 +5,7 @@
         <div class="content-section row">
             <div class="media col-md-4">
                 <div class="media-body text-center border">
-                    <img class="rounded-3 account-img w-50 mt-3" src="{{ profile_picture }}">
+                    <img class="rounded-3 account-img mt-3 profile-picture-size" src="https://myframebucket.s3.amazonaws.com/{{fn}}">
                     <h2 class="account-heading mt-3 mb-3">{{ current_user.username }}</h2>
                     <p>{{ current_user.email }}</p>
                     <p>Date Joined: <br>{{ current_user.date.strftime('%m-%d-%Y') }}</p>

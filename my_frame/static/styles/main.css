@@ -13,3 +13,8 @@ font-size: 5px;
     max-width: 256px;
     max-height: 256px;
 }
+
+.profile-picture-size{
+    max-width: 125px;
+    max-height: 125px;
+}

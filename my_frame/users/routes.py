@@ -4,7 +4,10 @@ from flask import render_template, url_for, flash, redirect, request
 from my_frame.models import User, Image_Post
 from my_frame import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
-from my_frame.users.utils import user_images_group, save_picture, send_reset_email
+from my_frame.users.utils import user_images_group, send_reset_email
+from my_frame.posts.utils import upload_file_to_s3, fn_to_uuid, del_file_from_s3
+from my_frame.config import Config
+
 
 users = Blueprint('users', __name__)
 
@@ -49,8 +52,10 @@ def account():
     user_images = user_images_group()
     if form.validate_on_submit():
         if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            current_user.profile_picture = picture_file
+            del_file_from_s3(current_user.profile_picture)
+            picture_uuid = fn_to_uuid(form.picture.data)
+            upload_file_to_s3(picture_uuid, bucket_name=Config.S3_BUCKET)
+            current_user.profile_picture = picture_uuid.filename
         current_user.username = form.username.data.lower()
         current_user.email = form.email.data
         db.session.commit()
@@ -59,8 +64,8 @@ def account():
     elif request.method == "GET":
         form.username.data = current_user.username
         form.email.data = current_user.email
-    profile_picture = url_for('static', filename='images/miscellanious/' + current_user.profile_picture)
-    return render_template('account.html', title='MyFrame - Account', profile_picture=profile_picture, form=form, images=user_images)
+    profile_picture = current_user.profile_picture
+    return render_template('account.html', title='MyFrame - Account',fn=profile_picture, form=form, images=user_images)
 
 @users.route("/user/<string:username>")
 def user_posts(username):
