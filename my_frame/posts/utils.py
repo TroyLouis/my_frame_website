@@ -19,6 +19,13 @@ def save_img_256x256(image):
 '''
 
 def fn_to_uuid(user_upload):
+    """
+
+    :param user_upload: User uploaded image's form.picture.data
+
+    :return: User uploaded image's form.picture.data filename converted
+        to a hex
+    """
     uuid_hex = uuid.uuid4().hex
     user_upload.filename = uuid_hex
     return user_upload
@@ -55,6 +62,11 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
    return "{}{}".format(Config.S3_LOCATION, file.filename)
 
 def del_file_from_s3(fn):
+    """
+
+    :param fn: uuid hex of image stored in database
+    :return: object from amazon s3
+    """
     s3.delete_object(Bucket='myframebucket', Key=fn)
 
 def s3bucket_getfile(fn):
