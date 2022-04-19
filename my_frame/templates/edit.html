@@ -3,14 +3,14 @@
 <section class="p-5">
     <div class="container">
         <div class="text-center">
-            <img class="card-img sized-256" src="https://myframebucket.s3.amazonaws.com/{{image.image_uuid}}">
+            <img class="card-img sized-256" src="https://piframebucket.s3.us-west-1.amazonaws.com/{{image.image_uuid}}">
             <h2 class="mb-3 mt-3">{{ image.title }}</h2>
             <p class="">Date Posted: {{ image.date_posted.strftime('%m-%d-%Y') }}</p>
         </div>
         <form method="POST" action="">
             {{ form2.hidden_tag() }}
             <div class="form-group mb-3 d-flex flex-column align-items-center">
-                {{ form2.submit(class="btn btn-primary mt-3 mb-2 btn-sm") }}
+                {{ form2.set_active(class="btn cstm-btn-red fw-bold white font-roboto mt-3 mb-2 btn-sm") }}
             </div>
         </form>
 
@@ -22,7 +22,7 @@
                     <div>
                         {{form.title(class="form-control mb-1", placeholder='Enter New Title')}}
                     </div>
-                    {{ form.submit(class="btn btn-primary mt-3 mb-2 btn-sm") }}
+                    {{ form.submit(class="btn cstm-btn-red fw-bold white font-roboto mt-3 mb-2 btn-sm") }}
                 </div>
             </form>
             <!-- Button trigger modal -->

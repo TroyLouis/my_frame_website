@@ -9,4 +9,4 @@ class PostForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class SetActiveForm(FlaskForm):
-    submit = SubmitField('Set As Active')
+    set_active = SubmitField('Set As Active')

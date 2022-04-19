@@ -34,10 +34,10 @@ def edit(id):
     if current_user.id != image.user_id:
         abort(403)
     form = PostForm()
-    image = Image_Post.query.get_or_404(id)
     form2 = SetActiveForm()
+    image = Image_Post.query.get_or_404(id)
     single_image = image
-    if form2.validate_on_submit():
+    if form2.validate_on_submit() and "set_active" in request.form:
         current_user.active_image = single_image.image_uuid
         db.session.commit()
         flash(f'Your active image has been changed to {single_image.title}', 'success')
