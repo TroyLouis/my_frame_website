@@ -5,7 +5,7 @@
         <div class="content-section row">
             <div class="media col-md-4">
                 <div class="media-body text-center rounded">
-                    <img class="rounded-3 account-img mt-3 profile-picture-size" src="https://myframebucket.s3.amazonaws.com/{{fn}}">
+                    <img class="rounded-3 account-img mt-3 profile-picture-size" src="https://piframebucket.s3.us-west-1.amazonaws.com/{{fn}}">
                     <h2 class="account-heading mt-3 mb-3">{{ current_user.username }}</h2>
                     <p>{{ current_user.email }}</p>
                     <p>Date Joined: <br>{{ current_user.date.strftime('%m-%d-%Y') }}</p>
@@ -75,7 +75,7 @@
                 {% endif %}
                     <div class="col">
                         <div class="card border-1">
-                            <a href="{{ url_for('posts.edit', id=image.id) }}"><img class="card-img sized-256" src="https://myframebucket.s3.amazonaws.com/{{image.image_uuid}}"></a>
+                            <a href="{{ url_for('posts.edit', id=image.id) }}"><img class="card-img sized-256" src="https://piframebucket.s3.us-west-1.amazonaws.com/{{image.image_uuid}}"></a>
                             <div class="card-body d-none d-md-block">
                                 <p class="mb-0 mt-0">{{ image.title }}</p>
                                 <p class="mt-0">{{ image.date_posted.strftime('%m-%d-%Y') }}</p>
