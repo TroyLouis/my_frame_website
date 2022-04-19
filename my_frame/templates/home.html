@@ -1,17 +1,17 @@
 {% extends 'layout.html' %}
 {% block content %}
 <!-- Hero -->
-    <section class="bg-light text-dark p-5 text-center">
+    <section class="bg-image text-light p-5 text-center">
         <div class="container">
             <div class="d-sm-flex justify-content-around align-items-center">
                 <div>
-                    <h1>MyFrame</h1>
+                    <h1 class="font-roboto letter-spacing-wide header-shadow">MyFrame</h1>
                     <img class="img-fluid w-50 d-md-none" src="{{url_for('static', filename='images/miscellanious/my_frame.gif')}}" alt="My Frame Hero Banner">
-                    <p class="lead my-3">The open source digital art frame.</p>
+                    <p class="lead font-roboto mt-3">The open source digital art frame.</p>
                     {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('main.setup') }}" class="btn btn-primary">Setup Guide</a>
+                        <a href="{{ url_for('main.setup') }}" class="mt-3 btn cstm-btn-red fw-bold white font-roboto">Setup Guide</a>
                     {% else %}
-                        <a href="{{ url_for('users.register') }}" class="btn btn-primary">Get Started</a>
+                        <a href="{{ url_for('users.register') }}" class="mt-3 btn cstm-btn-red fw-bold white font-roboto">Get Started</a>
                     {% endif %}
                 </div>
                 <img class="img-fluid w-50 d-none d-md-block" src="{{url_for('static', filename='images/miscellanious/my_frame.gif')}}" alt="My Frame Hero Banner">
@@ -24,38 +24,40 @@
         <div class="container">
             <div class="row text-center g-4">
                 <div class="col-md d-flex">
-                   <div class="card text-dark">
+                   <div class="card border-0">
                        <div class="card-body text-center">
                             <img src="{{url_for('static', filename='/images/miscellanious/github.png')}}" alt="" class="img-fluid mb-2">
                             <h3 class="card-title mb-3">Open Source</h3>
                             <p class="card-text">MyFrame is Open Source and we're always looking for new contributors!</p>
                         </div>
                         <div>
-                            <a href="https://github.com/TroyLouis/MyFrame" class="btn btn-primary align-self-center mb-4">Github</a>
+                            <a href="https://github.com/TroyLouis/MyFrame" class="mt-3 btn cstm-btn-red fw-bold white font-roboto">Github</a>
                         </div>
                    </div>
                 </div>
+                <hr class="d-block d-md-none">
                 <div class="col-md d-flex">
-                    <div class="card text-dark">
+                    <div class="card border-0">
                         <div class="card-body text-center">
                             <img src="{{url_for('static', filename='/images/miscellanious/check.png')}}" alt="" class="img-fluid mb-2">
                             <h3 class="card-title mb-3">Easy Setup</h3>
                             <p class="card-text">MyFrame is easy to setup and install. Grab your Rasberry Pi and start today! </p>
                         </div>
                         <div>
-                            <a href="{{url_for('main.setup')}}" class="btn btn-primary align-self-center mb-4">Setup Guide</a>
+                            <a href="{{url_for('main.setup')}}" class="mt-3 btn cstm-btn-red fw-bold white font-roboto">Setup Guide</a>
                         </div>
                     </div>
                 </div>
+                <hr class="d-block d-md-none">
                 <div class="col-md d-flex">
-                    <div class="card text-dark">
+                    <div class="card border-0">
                         <div class="card-body text-center ">
                             <img src="{{url_for('static', filename='/images/miscellanious/community.png')}}" alt="" class="img-fluid mb-2">
                             <h3 class="card-title mb-3">Community</h3>
                             <p class="card-text">In the feed you will find eclectic images from our community members.</p>
                         </div>
                         <div>
-                            <a href="{{ url_for('posts.browse') }}" class="btn btn-primary align-self-center mb-4">View Feed</a>
+                            <a href="{{ url_for('posts.browse') }}" class="mt-3 btn cstm-btn-red fw-bold white font-roboto">View Feed</a>
                         </div>
                     </div>
                 </div>
@@ -65,9 +67,9 @@
 
     <!-- Recent User Uploads-->
 
-    <section class="p-5 bg-light">
+    <section class="p-5 cstm-dark-bg">
         <div class="container">
-            <h2 class="text-center mb-4">
+            <h2 class="text-center mb-4 font-roboto white header-shadow">
                 Recent Uploads From Our Community
             </h2>
             <div class="row">
@@ -145,7 +147,22 @@
         </div>
     </section>
 
-    <section class="p-5 bg-light">
+<!-- Email signup -->
+
+    <section class="p-5 cstm-dark-bg">
+        <div class="container">
+            <h2 class="white font-roboto text-center header-shadow">Sign Up For Our Newsletter</h2>
+            <div class="d-flex justify-content-center mt-3">
+                <input class="form-control" placeholder="Email Address">
+            </div>
+            <div class="text-center mt-3">
+                <a href="" class="btn cstm-btn-red fw-bold white font-roboto">SIGN UP</a>
+            </div>
+        </div>
+    </section>
+
+<!--Donation -->
+    <section class="p-5">
         <div class="container text-center">
             <h2>Enjoying MyFrame? Consider a donation!</h2>
             <div class="d-none d-sm-block">

@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=  , initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/styles/main.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/miscellanious/Favicon.png')}}">
     <title>{{ title }}</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light">
+    <nav class="navbar navbar-expand-lg cstm-dark-bg">
         <div class="container">
-            <a href="{{ url_for('main.home') }}" class="navbar-brand">MyFrame</a>
+            <a href="{{ url_for('main.home') }}" class="navbar-brand fw-bold white">MyFrame</a>
 
-            <button class="navbar-toggler"
+            <button class="navbar-toggler navbar-dark"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navmenu"
@@ -25,23 +26,18 @@
             <div class="collapse navbar-collapse" id="navmenu">
 
                 <ul class="navbar-nav ms-auto">
-                    <!--
                     <li class="nav-item">
-                        <a href="#donate" class="nav-link" >Donate</a>
-                    </li>
-                    -->
-                    <li class="nav-item">
-                        <a href="https://github.com/TroyLouis/MyFrame" class="nav-link">Github</a>
+                        <a href="https://github.com/TroyLouis/MyFrame" class="nav-link white">Github</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('main.setup') }}" class="nav-link">Setup Guide</a>
+                        <a href="{{ url_for('main.setup') }}" class="nav-link white">Setup Guide</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('posts.browse') }}" class="nav-link">Browse Images</a>
+                        <a href="{{ url_for('posts.browse') }}" class="nav-link white">Browse Images</a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="{{ url_for('posts.new_post') }}" class="nav-link">Upload Image</a>
+                        <a href="{{ url_for('posts.new_post') }}" class="nav-link white">Upload Image</a>
                     </li>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,7 +50,7 @@
                     </div>
                     {% else %}
                     <li class="nav-item">
-                        <a href="{{ url_for('users.login') }}" class="nav-link">Login</a>
+                        <a href="{{ url_for('users.login') }}" class="nav-link white">Login</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -76,10 +72,10 @@
     {% endblock%}
 
 
-<footer class=" mt-auto bg-light text-center text-lg-start">
+<footer class=" mt-auto cstm-dark-bg text-center text-lg-start">
   <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2022 Chet Smith
+  <div class="text-center p-3 white">
+    © 2022 | Troy Arnold
   </div>
 
 </footer>

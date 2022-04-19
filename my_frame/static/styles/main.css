@@ -18,3 +18,37 @@ font-size: 5px;
     max-width: 125px;
     max-height: 125px;
 }
+
+.cstm-btn-red {
+  background-color: rgb(223, 28, 47);
+}
+
+.cstm-dark {
+  color: #0f2942;
+}
+
+.cstm-dark-bg {
+  background-color: #1b3d58;
+}
+
+
+.white {
+  color: white;
+}
+
+.bg-image {
+  background-image:url('/../static/images/miscellanious/bg.jpg');
+}
+
+.header-shadow {
+  text-shadow: 2px 2px #000000;
+}
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;;
+}
+
+.letter-spacing-wide {
+  letter-spacing: .05em;
+}
+

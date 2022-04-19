@@ -2,13 +2,13 @@ from flask_restful import Resource,reqparse, abort
 from my_frame.models import Image_Post, User
 from flask import url_for, redirect
 
-image_ids={}
+IMAGE_IDS={}
 def abort_if_nil_id(image_id):
-    if image_id not in image_ids:
+    if image_id not in IMAGE_IDS:
         abort(404, message='Item is unavailable.')
 
 def abort_if_id_exists(image_id):
-    if image_id in image_ids:
+    if image_id in IMAGE_IDS:
         abort(409, message="Already exists")
 
 def query_image(image_id):

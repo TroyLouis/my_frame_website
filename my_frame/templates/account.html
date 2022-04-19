@@ -4,7 +4,7 @@
 <section class="p-5">
         <div class="content-section row">
             <div class="media col-md-4">
-                <div class="media-body text-center border">
+                <div class="media-body text-center rounded">
                     <img class="rounded-3 account-img mt-3 profile-picture-size" src="https://myframebucket.s3.amazonaws.com/{{fn}}">
                     <h2 class="account-heading mt-3 mb-3">{{ current_user.username }}</h2>
                     <p>{{ current_user.email }}</p>
@@ -14,9 +14,9 @@
                     <p>Liked: 235</p>
                     -->
                     <div>
-                        <a href="{{ url_for('users.register')}}" class="btn btn-primary col mb-3">Edit Images</a>
+                        <a href="{{ url_for('users.register')}}" class="btn cstm-btn-red fw-bold white font-roboto col mb-3">Edit Images</a>
                     </div>
-                    <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Account Settings</a>
+                    <a class="btn cstm-btn-red fw-bold white font-roboto mb-3" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Account Settings</a>
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
                         <div class="card card-body">
                         <form method="POST" enctype="multipart/form-data">
@@ -56,7 +56,7 @@
                                 {% endfor %}
                             {% endif %}
                         </div>
-                            {{ form.submit(class="btn btn-primary mt-3 mb-2") }}
+                            {{ form.submit(class="btn cstm-btn-red fw-bold white font-roboto mt-3 mb-2") }}
 
                       </form>
                     </div>
