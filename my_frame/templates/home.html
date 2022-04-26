@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
+
 <!-- Hero -->
     <section class="bg-image text-light p-5 text-center">
         <div class="container">
@@ -150,12 +151,19 @@
     <section class="p-5 cstm-dark-bg">
         <div class="container">
             <h2 class="white font-roboto text-center header-shadow">Sign Up For Our Newsletter</h2>
-            <div class="d-flex justify-content-center mt-3">
-                <input class="form-control" placeholder="Email Address">
-            </div>
-            <div class="text-center mt-3">
-                <a href="" class="btn cstm-btn-red fw-bold white font-roboto">SIGN UP</a>
-            </div>
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <div class="d-flex justify-content-center mt-3">
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid", placeholder="Email Address") }}
+                    {% else %}
+                        {{ form.email(class="form-control mb-1", placeholder="Enter email") }}
+                    {% endif %}
+                </div>
+                <div class="text-center mt-3">
+                    {{ form.submit(class="btn cstm-btn-red fw-bold white font-roboto") }}
+                </div>
+            </form>
         </div>
     </section>
 
