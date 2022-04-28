@@ -2,6 +2,7 @@ from flask_restful import Resource,reqparse, abort
 from my_frame.models import Image_Post, User
 from flask import url_for, redirect
 
+'''
 IMAGE_IDS={}
 def abort_if_nil_id(image_id):
     if image_id not in IMAGE_IDS:
@@ -10,11 +11,12 @@ def abort_if_nil_id(image_id):
 def abort_if_id_exists(image_id):
     if image_id in IMAGE_IDS:
         abort(409, message="Already exists")
+'''
 
 def query_image(image_id):
     result = Image_Post.query.filter_by(id=image_id)
     for image in result:
-        return image.image
+        return image.image_uuid
 
 def get_user_id(email):
     email_exists = []
@@ -38,8 +40,10 @@ image_id_args.add_argument("image_post_id", type=int, help="Image Post ID is req
 
 class FetchPost(Resource):
     def get(self, image_id):
-        image = query_image(image_id)
-        return
+        bucket = 'https://piframebucket.s3.us-west-1.amazonaws.com/'
+        image_uuid = query_image(image_id)
+        image = bucket + image_uuid
+        return redirect(image)
 
     '''
     def put(self, image_id):
@@ -56,9 +60,10 @@ class FetchPost(Resource):
     '''
 class FetchSetImage(Resource):
     def get(self, email):
+        bucket = 'https://piframebucket.s3.us-west-1.amazonaws.com/'
         user_id = get_user_id(email)[0]
         active_image = get_active_image(user_id)
-        return redirect(url_for('static', filename='images/user_uploads/' + active_image))
+        return redirect(bucket + active_image)
 
 
 
