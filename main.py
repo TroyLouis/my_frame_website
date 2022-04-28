@@ -5,7 +5,7 @@ from kivy.core.window import Window
 from kivy.properties import NumericProperty, BooleanProperty, StringProperty
 from kivy.config import Config
 import requests
-import os
+import os, time
 
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
@@ -16,8 +16,10 @@ def validate_email(email):
     return True
 
 def call_api_save_image(email):
+
     if validate_email(email):
-        r = requests.get("http://127.0.0.1:5000/api/v1/set_image/"+email)
+        r = requests.get("https://troy.pythonanywhere.com/api/v1/set_image/" + email)
+        time.sleep(1)
         if r.status_code == 200:
             data = r.content
             url = r.request.url
