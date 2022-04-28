@@ -22,11 +22,11 @@ def call_api_save_image(email):
             data = r.content
             url = r.request.url
             image_name = url.rsplit('/', 1)[-1]
-            image_type = url.rsplit(".",1)[-1]
+            #image_type = url.rsplit(".",1)[-1]
             with open(image_name, 'wb') as x:
                 x.write(data)
-            os.rename(image_name, 'set_image' + '.' + image_type)
-            return ('set_image' + '.' + image_type)
+            #os.rename(image_name, 'set_image' + '.' + image_type)
+            return image_name
         else:
             App.get_running_app().stop()
             return "Please enter the email address registered on MyFrame."
