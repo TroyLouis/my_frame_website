@@ -56,7 +56,7 @@ def edit(id):
 @login_required
 def delete(id):
     image = Image_Post.query.get_or_404(id)
-    image_uuid = image.image
+    image_uuid = image.image_uuid
     if current_user.id != image.user_id:
         abort(403)
     db.session.delete(image)
